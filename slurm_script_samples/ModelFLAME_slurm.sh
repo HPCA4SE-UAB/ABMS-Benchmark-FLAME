@@ -31,7 +31,7 @@ export TAU_COMM_MATRIX=1
 #export TAU_TRACE=1
 #for a in 1 2 3 4 5 6 7 8 9 10; 
 for a in 1 ; 
-do mpiexec -n 32 ./main 100 0_4.xml -g > ./output/sortida$a.txt ; 
+do mpiexec -n 32 ./main 100 0.xml -g > ./output/sortida$a.txt ; 
 pprof -p > ./output/pprof_out$a;
 done
 /usr/bin/date
