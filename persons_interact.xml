@@ -1,0 +1,233 @@
+<xmodel version="2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation='xmml_v2.xsd'>
+<name>Persons_interact</name>
+<version>1</version>
+<description>Persons_interact Model</description>
+	<environment>
+		<functionFiles>
+			<file>persons_interact.c</file>
+			<enabled>true</enabled>			
+		</functionFiles>
+		<constants>
+			<variable>
+				<type>int</type>
+				<name>height</name>
+				<description>Height</description>
+			</variable>
+			<variable>
+				<type>int</type>
+				<name>width</name>
+				<description>Width</description>
+			</variable>
+			<variable>
+				<type>int</type>
+				<name>radius</name>
+				<description>Perception field of the agent</description>
+			</variable>
+			<variable>
+				<type>float</type>
+				<name>birth_rate</name>
+				<description>Birth rate of person agents</description>
+			</variable>
+			<variable>
+				<type>int</type>
+				<name>center_birth_x</name>
+				<description>Center birth</description>
+			</variable>
+			<variable>
+				<type>int</type>
+				<name>center_birth_y</name>
+				<description>Center birth</description>
+			</variable>
+			<variable>
+				<type>float</type>
+				<name>death_rate</name>
+				<description>Death rate of person agents</description>
+			</variable>
+			<variable>
+				<type>int</type>
+				<name>center_death_x</name>
+				<description>Center death</description>
+			</variable>
+			<variable>
+				<type>int</type>
+				<name>center_death_y</name>
+				<description>Center death</description>
+			</variable>
+		</constants>
+	</environment>	
+
+	<!-- List of agents -->
+	<agents>
+		<xagent>
+			<name>person</name>
+			<description>An agent that reads and writes to memory</description>
+			
+			<!-- Agent memory holding a list of variables -->
+			<memory>
+				<variable>
+					<type>int</type>
+					<name>id</name>
+					<description>ID of the agent</description>
+				</variable>
+				
+				<variable>
+					<type>int</type>
+					<name>c</name>
+					<description>Payoff when I ha wanted to cooperate</description>
+				</variable>
+				<variable>
+					<type>int</type>
+					<name>total</name>
+					<description>Max Payoff</description>
+				</variable>				
+			
+				<!-- Agent possition -->
+				<variable>
+					<type>int</type>
+					<name>x</name>
+					<description>position on x-axis</description>
+				</variable>
+				<variable>
+					<type>int</type>
+					<name>y</name>
+					<description>position on y-axis</description>
+				</variable>
+				<variable>
+					<type>int</type>
+					<name>z</name>
+					<description>position on z-axis</description>
+				</variable>
+			</memory>
+			
+			<!-- List of agent functions (behaviour)
+				3 behaviours : 
+					- Walk
+					- Cooperate
+					- Play
+					- Compute -->
+			<functions>          				
+				<function>
+					<name>walk</name>
+					<description>agent Move</description>
+					<currentState>start</currentState>
+					<nextState>1</nextState>
+					
+					<outputs>
+						<output>
+							<messageName>agentLocation</messageName>
+						</output>
+					</outputs>	
+				</function>
+				
+				<function>
+					<name>cooperate</name>
+					<description>Agent uses its perception field to interact to decide if it will cooperate</description>
+					<currentState>1</currentState>
+					<nextState>2</nextState>	
+					
+					<inputs>
+						<input>
+						<messageName>agentLocation</messageName>
+						</input>
+					</inputs>
+					
+					<outputs>
+						<output>
+						<messageName>agentCooperate</messageName>
+						</output>
+					</outputs>	
+				</function>
+
+				<function>
+					<name>play</name>
+					<description>agent compute an FFT</description>
+					<currentState>2</currentState>
+					<nextState>3</nextState>	
+					<inputs>
+						<input>
+							<messageName>agentCooperate</messageName>
+							<filter>
+                                                                <lhs><value>a.id</value></lhs>
+                                                                <op>EQ</op>
+                                                                <rhs><value>m.destination_id</value></rhs>
+                                                        </filter>
+						</input>
+					</inputs>
+				</function>
+
+				<function>
+					<name>compute</name>
+					<description>agent compute an FFT</description>
+					<currentState>3</currentState>
+					<nextState>4</nextState>	
+				</function>
+
+				<function>
+					<name>birthdeath</name>
+					<description>birth a new agent and/or current agent deads</description>
+					<currentState>4</currentState>
+					<nextState>end</nextState>
+				</function>
+			</functions>
+		</xagent>
+	</agents>
+	
+	<!-- List of Messages during the simulation -->
+	<messages>	
+		<message>
+			<name>agentLocation</name>
+			<description>the location of agents</description>
+			<variables>
+				<variable>
+					<type>int</type>
+					<name>my_id</name>
+					<description>ID of the agent</description>
+				</variable>
+				<variable>
+					<type>int</type>
+					<name>x</name>
+					<description>Position X of the remote agent</description>
+				</variable>
+				<variable>
+					<type>int</type>
+					<name>y</name>
+					<description>Position Y of the remote agent</description>
+				</variable>
+			</variables>
+		</message>
+
+		<message>
+			<name>agentCooperate</name>
+			<description>Message sended to others agents indicating if wants to cooperate</description>
+			<variables>
+				<variable>
+					<type>int</type>
+					<name>source_id</name>
+					<description>ID of the remote agent</description>
+				</variable>
+				<variable>
+					<type>int</type>
+					<name>destination_id</name>
+					<description>represent the ID of the agent which reveive the messages</description>
+				</variable>
+				<variable>
+					<type>int</type>
+					<name>cooperate</name>
+					<description>Cooperate: 1:yes 0: no</description>
+				</variable>
+				<variable>
+					<type>char</type>
+					<name>message[64]</name>
+					<description>A list of 64 chars</description>
+				</variable>
+			</variables>
+		</message>
+
+
+
+
+
+	</messages>	
+	
+</xmodel>
