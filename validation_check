@@ -1,0 +1,44 @@
+#!/bin/sh
+#echo "Benchmark's validation check"
+
+
+
+echo "FLAME benchmark's validation check"
+echo "Assuming:"
+echo " 1000 agents"
+echo " 100 iterations"
+echo " 300x300 space size where agents move around"
+echo " 10 interaction radius between agents"
+echo " (50,50) death rate center"
+echo " (150,150) birth rate center"
+echo " 0.02 death rate"
+echo " 0.02 birth rate"  
+
+echo "Result:"
+
+c_min=424;
+c_max=444;
+
+total_min=2323;
+total_max=2395;
+
+c=$(cat node*-100.xml | grep "<c>" | grep -Eoi "[0-9]{1,}" | awk '{s+=($1)} END {printf "%d", s/NR}');
+total=$(cat node*-100.xml | grep "<total>" | grep -Eoi "[0-9]{1,}" | awk '{s+=($1)} END {printf "%d", s/NR}');
+
+
+if (( $c < $c_min )); then
+	printf ' WRONG: c:%d less than %d\n' $c $c_min;
+elif (( $c > $c_max )); then
+	printf ' WRONG: c:%d more than %d\n' $c $c_max;
+else
+	printf ' RIGHT c:%d\n' $c;
+fi
+
+
+if (( $total < $total_min )); then
+	printf ' WRONG: total:%d less than %d\n' $total $total_min;
+elif (( $total > $total_max )); then
+	printf ' WRONG: total:%d more than %d\n' $total $total_max;
+else
+	printf ' RIGHT total:%d\n' $total;
+fi
