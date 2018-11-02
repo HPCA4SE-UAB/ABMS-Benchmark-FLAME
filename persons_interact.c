@@ -34,8 +34,8 @@
 /*
  * Parameter: size of communitacion message
 */
-//#define COM_BUFFER_SIZE 256
-#define COM_BUFFER_SIZE 64
+#define COM_BUFFER_SIZE 256
+//#define COM_BUFFER_SIZE 64
 //#define COM_BUFFER_SIZE 32
 //#define COM_BUFFER_SIZE 16
 
@@ -78,6 +78,29 @@ int isIntoCircle(int x, int y, int xCircle, int yCircle, int rCircle) {
 	int dist = sqrt(pow(x-xCircle, 2)+pow(y-yCircle, 2));
 
 	if(dist <= rCircle) {
+		return 0;
+	} else {
+		return 1;
+	}
+}
+
+/*
+ * Function:  isIntoSquare 
+ * --------------------
+ * check if two point are into a squeare
+ * 
+ * x,y: position A coordinates
+ * xCircle,yCircle: posicion B coordinates
+ * rAquare: distance to check between position A to B
+ *
+ * returns: 0 A and B are into rSquare
+ *          1 A to B are not into rSquare
+ */
+int isIntoSquare(int x, int y, int xCircle, int yCircle, int rSquare) {
+	int dist_x = abs(x-xCircle);
+	int dist_y = abs(y-yCircle);
+
+	if((dist_x <= rSquare)&&(dist_y <= rSquare)) {
 		return 0;
 	} else {
 		return 1;
@@ -143,7 +166,8 @@ int cooperate() {
 	
 	while(agentLocation_message) {
 		if( ID != agentLocation_message->my_id) {
-			if(isIntoCircle(X, Y, agentLocation_message->x, agentLocation_message->y, RADIUS) == 0) {
+			//if(isIntoCircle(X, Y, agentLocation_message->x, agentLocation_message->y, RADIUS) == 0) {
+			if(isIntoSquare(X, Y, agentLocation_message->x, agentLocation_message->y, RADIUS) == 0) {
 				if (frand() < (C*1.0)/TOTAL){
 					cooperate_ = 1;
 				}
