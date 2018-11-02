@@ -24,7 +24,7 @@ total_max=2395;
 
 c=$(cat node*-100.xml | grep "<c>" | grep -Eoi "[0-9]{1,}" | awk '{s+=($1)} END {printf "%d", s/NR}');
 total=$(cat node*-100.xml | grep "<total>" | grep -Eoi "[0-9]{1,}" | awk '{s+=($1)} END {printf "%d", s/NR}');
-
+n=$(grep -hc person node*-100.xml | awk '{s+=($1)} END {printf "%d", s}');
 
 if (( $c < $c_min )); then
 	printf ' WRONG: c:%d less than %d\n' $c $c_min;
@@ -42,3 +42,6 @@ elif (( $total > $total_max )); then
 else
 	printf ' RIGHT total:%d\n' $total;
 fi
+
+printf 'Number agents at last step: %d\n' $n;
+
