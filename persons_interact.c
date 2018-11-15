@@ -130,15 +130,15 @@ int walk() {
 	newy = Y + ydir;
           
 	if (newx < 0) { 
-       		newx = 0; 
-	} else if (newx >= HEIGHT) {
-		newx = HEIGHT; 
-	} 
+       		newx = (WIDTH-1); 
+	} else if (newx >= (HEIGHT-1)) {
+		newx = 0; 
+	}
         
 	if (newy < 0) { 
-		newy = 0;  	
-	} else if (newy >= WIDTH) {
-       		newy = WIDTH;  
+		newy = (HEIGHT-1);  	
+	} else if (newy >= (HEIGHT-1)) {
+       		newy = 0;  
 	}
 			
 	X = newx;
