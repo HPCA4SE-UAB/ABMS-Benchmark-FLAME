@@ -276,10 +276,8 @@ int birthdeath(){
 
 	//Birth algorithm
 	p = frand();
-		printf("p:%f birth_rate_factor:%f\n", p, birth_rate_factor);
 	if (p<=birth_rate_factor){
 		// generate
-		printf("Generate\n");
 		uuid_generate(uuid);
 		hash_val = fnv_32_buf(uuid, 16, ID);
 		add_person_agent(hash_val, 100, 200, X, Y, 0); //Add new person agent in the same position with my_id, new_id, c, total, x, y
@@ -287,9 +285,7 @@ int birthdeath(){
 	
 	//Death algorithm
 	p = frand();
-		printf("p:%f death_rate_factor:%f\n", p, death_rate_factor);
 	if (p<=death_rate_factor){
-		printf("Death\n");
 		return 1; //Death
 	}else
 		return 0; //Keep alive		
