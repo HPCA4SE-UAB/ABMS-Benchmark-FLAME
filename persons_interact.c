@@ -236,7 +236,7 @@ int compute() {
 	fftw_complex *in, *out;
 	fftw_plan p;
    
-	srand(123456);
+	srand(123456); //To get the same computing time
 	in = fftw_malloc(sizeof(fftw_complex) * N);
 	out = fftw_malloc (sizeof(fftw_complex) * N);
     
@@ -249,6 +249,8 @@ int compute() {
 	fftw_execute(p); 
 	fftw_destroy_plan(p);
 	fftw_free(in); fftw_free(out);
+
+	srand(time(NULL)); //To have aleatorial numbers in others frand()
 	
 	return 0;
 }
@@ -266,16 +268,18 @@ int compute() {
 int birthdeath(){
 
 	double p;
-	float birth_rate_factor = BIRTH_RATE * (1 - fmin(1 , sqrt( pow(abs(X-CENTER_BIRTH_X),2) + pow(abs(Y-CENTER_BIRTH_Y),2) )/((HEIGHT+WIDTH)/2)));
-	float death_rate_factor = DEATH_RATE * (1 - fmin(1 , sqrt( pow(abs(X-CENTER_DEATH_X),2) + pow(abs(Y-CENTER_DEATH_Y),2) )/((HEIGHT+WIDTH)/2)));
+	double birth_rate_factor = BIRTH_RATE * (1 - fmin(1 , sqrt( pow(abs(X-CENTER_BIRTH_X),2) + pow(abs(Y-CENTER_BIRTH_Y),2) )/((HEIGHT+WIDTH)/2)));
+	double death_rate_factor = DEATH_RATE * (1 - fmin(1 , sqrt( pow(abs(X-CENTER_DEATH_X),2) + pow(abs(Y-CENTER_DEATH_Y),2) )/((HEIGHT+WIDTH)/2)));
 	
 	uuid_t uuid;
 	Fnv32_t hash_val;
 
 	//Birth algorithm
 	p = frand();
+		printf("p:%f birth_rate_factor:%f\n", p, birth_rate_factor);
 	if (p<=birth_rate_factor){
 		// generate
+		printf("Generate\n");
 		uuid_generate(uuid);
 		hash_val = fnv_32_buf(uuid, 16, ID);
 		add_person_agent(hash_val, 100, 200, X, Y, 0); //Add new person agent in the same position with my_id, new_id, c, total, x, y
@@ -283,7 +287,9 @@ int birthdeath(){
 	
 	//Death algorithm
 	p = frand();
+		printf("p:%f death_rate_factor:%f\n", p, death_rate_factor);
 	if (p<=death_rate_factor){
+		printf("Death\n");
 		return 1; //Death
 	}else
 		return 0; //Keep alive		
