@@ -33,6 +33,9 @@ export TAU_COMM_MATRIX=1
 for a in 1 ; 
 do mpiexec -n 32 ./main 100 0.xml -g > ./output/sortida$a.txt ; 
 pprof -p > ./output/pprof_out$a;
+./validation_check > ./output/validation_check_out$a;
+tar zcvf EnodeX-100-$a.xml.tgz node*-100.xml
+rm node*
 done
 /usr/bin/date
 
