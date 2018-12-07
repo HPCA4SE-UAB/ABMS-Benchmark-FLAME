@@ -46,6 +46,11 @@
 //#define FFT_VECTOR_SIZE 512
 //#define FFT_VECTOR_SIZE 16
 
+/*
+ * Parameter: Max number of agents to play with
+*/ 
+#define MAX_AGENTS_TO_PLAY 10
+
 
 /*
  * Function:  frand 
@@ -212,6 +217,8 @@ int play() {
 
 		agentCooperate_message = get_next_agentCooperate_message(agentCooperate_message);
 		i++;
+                if (i >= MAX_AGENTS_TO_PLAY) break;     //Control max number agents to play with
+
 	}
 	
 	C      += cPayoff;
