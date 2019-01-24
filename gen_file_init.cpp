@@ -86,7 +86,8 @@ int main(int argc, char *argv[]) {
 	for(int i=1; i<=num_persons; i++) {
 		int x = rand()%(299-0);
 		int y = rand()%(299-0);
-		int z = rand()%(299-0);
+		//int z = rand()%(299-0);
+		int z = 0;
 		objetfichier << "<xagent>" << "\n";
 		objetfichier << "	<name>person</name>" << "\n";
 		
