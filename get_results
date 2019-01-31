@@ -9,7 +9,7 @@ fi
 printf 'execution total_time main_time compute_time cooperate_time total_bytes c total agents \n';
 for a in $(seq 1 $1);
 do
-        total_time=$(grep "Execution time" output/sortida${a}.txt | awk '{print $4}');
+        total_time=$(grep "Execution time" output/sortida${a}.txt | awk '{print $4}' | awk -F ":" '{printf "%d", ($1*60*1000+$2*1000+$3)}' );
         main_time=$(grep mean -A 20 output/pprof_out$a | grep main | awk '{print $3}');
         compute_time=$(grep mean -A 20 output/pprof_out$a | grep compute | awk '{print $3}');
         cooperate_time=$(grep mean -A 20 output/pprof_out$a | grep cooperate | awk '{print $3}');
