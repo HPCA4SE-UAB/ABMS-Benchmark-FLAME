@@ -50,12 +50,13 @@ using namespace std;
 */
 
 int main(int argc, char *argv[]) { 
-	ofstream objetfichier;
+	ofstream objetfichier, objetfichier2;
 
 	uuid_t uuid;
 	Fnv32_t hash_val;
 
 	objetfichier.open("0.xml", ios::out); 
+	objetfichier2.open("0.data", ios::out); 
 	srand (time(NULL));
 	int num_persons;
 	num_persons = atoi(argv[1]);
@@ -95,10 +96,10 @@ int main(int argc, char *argv[]) {
 
 		hash_val = fnv_32_buf(uuid, 16, FNV1_32_INIT);
 		objetfichier << "	<id>" << hash_val  <<"</id>" << "\n";
-
 		objetfichier << "	<x>" << x << "</x>" << "\n";
 		objetfichier << "	<y>" << y << "</y>" << "\n";
 		objetfichier << "       <z>" << z << "</z>" << "\n";
+		objetfichier2 << hash_val << " " << x << " " << y << " " << z << "\n";
 		objetfichier << "	<c>100</c>" << "\n";
 		objetfichier << "	<total>200</total>" << "\n";		
 		objetfichier << "</xagent>" << "\n";
@@ -108,6 +109,7 @@ int main(int argc, char *argv[]) {
 	objetfichier << "</states>" << "\n";
 
 	objetfichier.close();  
+	objetfichier2.close();  
 	
 	return 0; 
 } 
