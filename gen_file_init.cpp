@@ -34,7 +34,29 @@ extern "C"{
 }
 
 
-using namespace std; 
+using namespace std;
+
+
+/*
+ * Function:  isPowerOfTwo 
+ * --------------------
+ * Check power of two
+ *
+ * n: number to check
+ *
+ * returns: true
+ * 	    false
+*/
+bool isPowerOfTwo(int n) 
+{ 
+   if(n==0) 
+   return false; 
+  
+   return (ceil(log2(n)) == floor(log2(n))); 
+} 
+
+
+ 
 /*
  * Function:  main 
  * --------------------
@@ -54,6 +76,12 @@ int main(int argc, char *argv[]) {
 
 	uuid_t uuid;
 	Fnv32_t hash_val;
+
+	int fft_vector_size = atof(argv[4]);
+	if (!(isPowerOfTwo(fft_vector_size))){
+		cout << "argv[4] must be a power of 2" << endl;
+		return 0;
+	}
 
 	objetfichier.open("0.xml", ios::out); 
 	objetfichier2.open("0.data", ios::out); 
@@ -114,7 +142,7 @@ int main(int argc, char *argv[]) {
 	//  Creating FFT vector fille
 	objetfichier3.open("fft.data", ios::out);
 
-	int fft_vector_size = atof(argv[4]);
+
 	objetfichier3 << fft_vector_size << "\n";
 
        for(int i=1; i <= fft_vector_size; i++) {
