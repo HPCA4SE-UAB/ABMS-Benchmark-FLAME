@@ -52,6 +52,9 @@
 #define MAX_AGENTS_TO_PLAY 10
 
 
+fftw_complex *in = NULL;
+int N;	 
+
 /*
  * Function:  frand 
  * --------------------
@@ -239,26 +242,37 @@ int play() {
 int compute() {
 	
 	int i;
-	int N = FFT_VECTOR_SIZE;	 
-	fftw_complex *in, *out;
+	fftw_complex *out;
 	fftw_plan p;
-   
-	srand(123456); //To get the same computing time
-	in = fftw_malloc(sizeof(fftw_complex) * N);
-	out = fftw_malloc (sizeof(fftw_complex) * N);
-    
-	for (i = 0; i < N; i++ ) {
-		in[i][0] = frand();
-		in[i][1] = frand();
+	FILE *fp;
+
+	if (in == NULL){
+
+        	fp = fopen("fft.data","r");
+        	if( feof(fp) ) return 0;
+
+        	fscanf(fp, "%d", &N);
+
+        	in = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
+
+        	for (i = 0; i < N; i++ ) {
+                	fscanf(fp, "%lf %lf", &in[i][0], &in[i][1]);
+                	if( feof(fp) ) {
+                        	break ;
+                	}
+        	}
+
+        	fclose(fp);
+
 	}
-	
+
+        out = (fftw_complex*) fftw_malloc(sizeof(fftw_complex) * N);
+
 	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 	fftw_execute(p); 
 	fftw_destroy_plan(p);
-	fftw_free(in); fftw_free(out);
+	fftw_free(out);
 
-	srand(time(NULL)); //To have aleatorial numbers in others frand()
-	
 	return 0;
 }
 
