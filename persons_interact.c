@@ -240,8 +240,8 @@ int compute() {
 	FILE *fp;
 
 	if (in == NULL){
-printf("Carrega FFT\n");
-        	fp = fopen("fft.data","r");
+        	
+		fp = fopen("fft.data","r");
         	if( feof(fp) ) return 0;
 
         	fscanf(fp, "%d", &N);
