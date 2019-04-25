@@ -40,13 +40,6 @@
 //#define COM_BUFFER_SIZE 16
 
 /*
- * Parameter: size of FFT vector
-*/
-#define FFT_VECTOR_SIZE 16384
-//#define FFT_VECTOR_SIZE 512
-//#define FFT_VECTOR_SIZE 16
-
-/*
  * Parameter: Max number of agents to play with
 */ 
 #define MAX_AGENTS_TO_PLAY 10
@@ -233,7 +226,7 @@ int play() {
 /*
  * Function:  compute 
  * --------------------
- * compute a FFT of a FFT_VECTOR_SIZE vector size
+ * compute a FFT vector size
  * 
  * -: No parameters
  *
@@ -247,7 +240,7 @@ int compute() {
 	FILE *fp;
 
 	if (in == NULL){
-
+printf("Carrega FFT\n");
         	fp = fopen("fft.data","r");
         	if( feof(fp) ) return 0;
 
