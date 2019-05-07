@@ -6,6 +6,15 @@ if [ "$#" -ne 1 ]; then
   exit 1
 fi
 
+Ttotal_time=0;
+Tmain_time=0;
+Tcompute_time=0;
+Tcooperate_time=0;
+Ttotal_byte=0;
+Tc=0;
+Ttotal=0;
+Tn=0;
+
 printf 'execution total_time main_time compute_time cooperate_time total_bytes c total agents \n';
 for a in $(seq 1 $1);
 do
@@ -18,4 +27,24 @@ do
 	total=$(grep "total" output/validation_check_out$a | awk '{print $2}');
 	n=$(grep "agents" output/validation_check_out$a | awk '{print $2}');
         printf '%d %s %s %s %s %s %s %s %s\n' $a $total_time $main_time $compute_time $cooperate_time $total_byte $c $total $n;
+
+	Ttotal_time=$(expr $Ttotal_time + $total_time);
+	Tmain_time=$(expr $Tmain_time + $main_time);
+	Tcompute_time=$(expr $Tcompute_time + $compute_time);
+	Tcooperate_time=$(expr $Tcooperate_time + $cooperate_time);
+	Ttotal_byte=$(expr $Ttotal_byte + $total_byte);
+	Tc=$(expr $Tc + $c);
+	Ttotal=$(expr $Ttotal + $total);
+	Tn=$(expr $Tn + $n);
 done
+
+Ttotal_time=$(expr $Ttotal_time / $a);
+Tmain_time=$(expr $Tmain_time / $a);
+Tcompute_time=$(expr $Tcompute_time / $a);
+Tcooperate_time=$(expr $Tcooperate_time / $a);
+Ttotal_byte=$(expr $Ttotal_byte / $a);
+Tc=$(expr $Tc / $a);
+Ttotal=$(expr $Ttotal / $a);
+Tn=$(expr $Tn / $a);
+
+printf 'm %s %s %s %s %s %s %s %s\n' $Ttotal_time $Tmain_time $Tcompute_time $Tcooperate_time $Ttotal_byte $Tc $Ttotal $Tn;
