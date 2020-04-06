@@ -211,6 +211,10 @@ int play() {
         		if(iCooperated) cPayoff += payoff;
         		totalPayoff             += payoff;
 
+
+
+		//if (ID == 1083467130){ printf("Step 1083467130 i %i iCooperated %i payoff %f cPayoff %i totalPayoff %i\n", i, iCooperated, payoff, cPayoff, totalPayoff);}
+
 		agentCooperate_message = get_next_agentCooperate_message(agentCooperate_message);
 		i++;
                 if (i >= MAX_AGENTS_TO_PLAY) break;     //Control max number agents to play with
@@ -219,6 +223,7 @@ int play() {
 	
 	C      += cPayoff;
 	TOTAL  += totalPayoff;
+	//if (ID == 1083467130){ printf("-Step 1083467130 i %i c %i total %i\n", i, C, TOTAL);}
 	
 	return 0;
 }
