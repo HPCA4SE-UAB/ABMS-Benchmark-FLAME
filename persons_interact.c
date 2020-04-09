@@ -167,8 +167,8 @@ int cooperate() {
 	
 	while(agentLocation_message) {
 		if( ID != agentLocation_message->my_id) {
-			//if(isIntoCircle(X, Y, agentLocation_message->x, agentLocation_message->y, RADIUS) == 0) {
-			if(isIntoSquare(X, Y, agentLocation_message->x, agentLocation_message->y, RADIUS) == 0) {
+			if(isIntoCircle(X, Y, agentLocation_message->x, agentLocation_message->y, RADIUS) == 0) {
+			//if(isIntoSquare(X, Y, agentLocation_message->x, agentLocation_message->y, RADIUS) == 0) {
 				if (frand() < (C*1.0)/TOTAL){
 					cooperate_ = 1;
 				}
