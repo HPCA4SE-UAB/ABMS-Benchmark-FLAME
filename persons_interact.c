@@ -243,6 +243,7 @@ int compute() {
 	fftw_complex *out;
 	fftw_plan p;
 	FILE *fp;
+	double fft_out_sum = 0;
 
 	if (in == NULL){
         	
@@ -268,6 +269,25 @@ int compute() {
 
 	p = fftw_plan_dft_1d(N, in, out, FFTW_FORWARD, FFTW_ESTIMATE);
 	fftw_execute(p); 
+
+        for(i=0; i < N ; i++) {
+                fft_out_sum += out[i][0];
+                fft_out_sum += out[i][1];
+        }
+
+	/*if (ID == 1083467130){ printf("fft_out_sum %f\n", fft_out_sum);}
+
+	if (ID == 1083467130){
+		printf("Compute {\n"); 
+	        for(i=0; i < 5 ; i++) {
+                	printf("%f ", out[i][0]);	
+                	printf("%f ", out[i][1]);	
+        	}
+
+		printf("}\n"); 
+	}*/
+
+
 	fftw_destroy_plan(p);
 	fftw_free(out);
 
