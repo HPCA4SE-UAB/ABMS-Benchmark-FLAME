@@ -218,8 +218,8 @@
 				</variable>
 				<variable>
 					<type>char</type>
-					<name>message[64]</name>
-					<description>A list of 64 chars</description>
+					<name>message[256]</name>
+					<description>A list of 256 chars</description>
 				</variable>
 			</variables>
 		</message>
