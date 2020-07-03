@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ "$#" -ne 2 ]; then
+  echo "Usage: $0 num_nodes file" >&2
+  exit 1
+fi
+
+# cat nodes files into one file
+mkdir tmp
+cd tmp
+tar zxvf ../$2
+ 
+for a in $(seq 0 $(($1-1))); 
+do
+	cat  node$a-100.xml >> EnodeX-100-1.xml.tmp;
+done
+
+# delete 2nd to 13n lines
+sed '2,13d' EnodeX-100-1.xml.tmp > ../EnodeX-100-1.xml
+rm EnodeX-100-1.xml.tmp
+
+rm node*
+cd ..
+rmdir tmp
+
